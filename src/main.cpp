@@ -93,6 +93,17 @@ int main() {
                     double py = j[1]["y"];
                     double psi = j[1]["psi"];
                     double v = j[1]["speed"];
+                    double delta = j[1]["steering_angle"];
+                    double alpha = j[1]["throttle"];
+
+                    // Use transition functions to propogate car the approximate dt into the future necessary to compensate actuator latency
+                    double Lf = 2.67;
+                    double latency = 0.1;
+
+                    px += v * cos(psi) * latency;
+                    py += v * sin(psi) * latency;
+                    psi += v * delta / Lf * latency;
+                    v += alpha * latency;
 
                     // Begin lesson code
                     for (int i = 0; i < ptsx.size(); i++) {
@@ -118,11 +129,9 @@ int main() {
                     // double epsi = psi-atan(coeffs[1] + 2 * px * coeffs[2] + 3 * coeffs[3] * pow(px, 2)
                     double epsi = -atan(coeffs[1]); //atan2????
 
-                    double steer_value = j[1]["steering_angle"];
-                    double throttle_value = j[1]["throttle"];
 
                     Eigen::VectorXd state(6);
-                    state << 0,0,0,v,cte,epsi;
+                    state << 0, 0, 0, v, cte, epsi;
 
                     /*
                     * TODO: Calculate steering angle and throttle using MPC.
@@ -151,7 +160,6 @@ int main() {
                         else { mpc_y_vals.push_back(vars[i]);}
                     }
 
-                    double Lf = 2.67;
 
 //                    double steer_value;
 //                    double throttle_value;
