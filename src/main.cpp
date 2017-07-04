@@ -104,6 +104,7 @@ int main() {
                     v += alpha * latency;
 
                     // transform points to center car at origin and rotate for later simplification
+                    // SEE README FOR FURTHER DISCUSSION OF LATENCY AND MODELING CHOICES
                     for (int i = 0; i < ptsx.size(); i++) {
                         double shift_x = ptsx[i] - px;
                         double shift_y = ptsy[i] - py;

@@ -5,9 +5,9 @@
 
 using CppAD::AD;
 
-// TODO: Set the timestep length and duration
+// SEE README FOR FURTHER DISCUSSION OF PARAMETER CHOICES
 size_t N = 8;
-double dt = 0.2; //.1
+double dt = 0.2;
 
 // This value assumes the model presented in the classroom is used.
 //
@@ -101,6 +101,7 @@ public:
             AD<double> psides0 = CppAD::atan(3*coeffs[3] * x0 * x0 + 3*coeffs[2] * x0 + coeffs[1]);
 
             // kinematics constraints
+            // SEE README FOR FURTHER DISCUSSION OF LATENCY AND MODELING CHOICES
             fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
             fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
             fg[2 + psi_start + i] = psi1 - (psi0 - v0 * delta0 / Lf * dt);
